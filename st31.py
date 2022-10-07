@@ -116,11 +116,12 @@ while game:
         input("для продолжения нажмите ENTER")
 
     if key == "4" and way_4:
+        os.system("cls")
         number = random.randint(1, 10)
         print("Я загадал случайное число от 1 до 10, сможешь угадать его?")
         while dice:
-            print(number)
             p_number = int(input("Какое число от 1 до 10? "))
+            os.system("cls")
             if number == p_number:
                 print("молодец, ты угадал")
                 win = True
