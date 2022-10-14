@@ -13,4 +13,6 @@ for i in range(3):
     t.setheading(0)
     t.pendown()
     r /= 2
+    if r < 5:
+        break
 t.done()
