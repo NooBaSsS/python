@@ -1,18 +1,31 @@
 import turtle as t
+import random
 t.speed(0)
-t.color("#6699FF")
-t.fillcolor("#6699FF")
-r = 50
-for i in range(3):
-    t.begin_fill()
-    t.circle(r)
-    t.end_fill()
+t.hideturtle()
+t.colormode(255)
+while True:
+    r = random.randint(30, 70)
+    circles = random.randint(3, 6)
+    x = random.randint(-200, 200)
+    y = random.randint(-200, 200)
+    red = random.randint(0, 255)
+    green = random.randint(0, 255)
+    blue = random.randint(0, 255)
+    t.color(red, green, blue)
+    t.fillcolor(red, green, blue)
     t.penup()
-    t.setheading(90)
-    t.fd(r * 2)
-    t.setheading(0)
+    t.setposition(x, y)
     t.pendown()
-    r /= 2
-    if r < 5:
-        break
+    for i in range(circles):
+        t.begin_fill()
+        t.circle(r)
+        t.end_fill()
+        t.penup()
+        t.setheading(90)
+        t.fd(r * 2)
+        t.setheading(0)
+        t.pendown()
+        r /= 2
+    t.penup()
+t.sety(y)
 t.done()
