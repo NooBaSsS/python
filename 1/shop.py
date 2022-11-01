@@ -1,9 +1,9 @@
-import main
+
 import os
-def shop(p_name, p_hp, p_money, p_potions):
+def shop(player):
     while True:
         os.system("cls")
-        print(f"{p_name} приехал в магазин с {p_money} в кармане. У него {p_potions} зелий.")
+        print(f"{player[0]} приехал в магазин с {player[1]} в кармане. У него {player[3]} зелий.")
         print("зелье лечения - 200")
         print("1. купить")
         print("2. уехать")
@@ -12,12 +12,12 @@ def shop(p_name, p_hp, p_money, p_potions):
             if choice == "1" or choice == "2":
                 break
         if choice == "1":
-            if p_money >= 200:
-                p_money -= 200
-                p_potions += 1
-                print(f"теперь у {p_name} {p_potions} зелий")
+            if player[1] >= 20:
+                player[1] -= 200
+                player[3] += 1
+                print(f"теперь у {player[0]} {player[3]} зелий")
                 input("для продолжения нажмите ENTER")
             else:
                 print("у вас нет столько денег")
         if choice == "2":
-            main.game(p_name, p_hp, p_money, p_potions)
+            return player
