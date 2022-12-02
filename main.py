@@ -211,6 +211,58 @@ def combat_result(hero, enemy) -> None:
         print(f"{hero[0]} и {enemy[0]} пали в бою:(")
 
 
-def get_award(winner, loser):
+def choose_options(hero: list, text: str, options: list) -> int:
+    """
+    описание ситуации, где происходит выбор
+    принимает список возможных вариантов
+    спросить пользователя вариант
+    проверяет, есть ли такой вариант
+    если есть, возвращает
+    """
+    os.system("cls")
+    show_hero(hero)
+    print(text)
+    for num, option in enumerate(options):
+        print(f"{num}. {option}")
+    option = input("\nвведите номер варианта: ")
+    try:
+        option = int(option)
+    except:
+        print("введите целое неотрицательное число")
+    else:
+        if option < len(options) and option > -1:
+            return option
+        else:
+            print("такой выбор невозможен")
+
+def visit_hub(hero: list) -> None:
+    text = "w"
+    options = [
+        "купить зелье за 10",
+        "использовать 1 предмет в инвентаре",
+        "драться",
+        "сыграть в кости на 10 монет",
+    ]
+    option = choose_options(hero, text, options)
+    os.system("cls")
+    if option == 0:
+        visit_shop(hero)
+    elif option == 1:
+        consume_item(hero, 0)
+    elif option == 2:
+        start_fight(hero)
+    elif option == 3:
+        play_dice(hero, 10)
+    else:
+        print("такого варианта еще нет")
+    input("\n э")
+
+def visit_shop(hero):
+    """
+    текст магазина 
+    опции с разными товарами и ценами
+    покупка товаров + добавить их эффекты в функцию consume_item
+
+    """
+    show_hero(hero)
     
-    pass
