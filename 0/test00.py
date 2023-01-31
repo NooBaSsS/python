@@ -12,13 +12,18 @@ books = [
 ]
 
 
-def hub(books: list):
+def hub(books: list) -> None:
 	print('Библиотека деревни «Гадюкино»:  ')
 	print()
 	print('')
 
 
-def show_all(books: list):
+
+def show_all(books: list) -> None:
+	if not books:
+		print('библиотека пуста')
+		return
+
 	for num, book in enumerate(books, 1):
 		print(
 			f'номер на полке: {num}'
@@ -34,7 +39,8 @@ def show_all(books: list):
 		)
 		print()
 
-def show_one(books: list):
+
+def show_one(books: list) -> None:
 	c_book = input("какую книгу показать? ")
 	
 	print(
@@ -51,7 +57,7 @@ def show_one(books: list):
 	)
 	print()
 
-def add_book(books: list):
+def add_book(books: list) -> None:
 	title = input('введите название книги: ')
 	if not title:
 		print('введите название')
@@ -80,29 +86,50 @@ def add_book(books: list):
 		return hub(books)
 
 	books.append(book)
+	print(f"книга {book['название']} добавлена")
 
-def del_book(books: list):
+
+def del_book(books: list) -> None:
+	if not books:
+		print('библиотека пуста')
+		return
 	c_book = input('введите номер книги, которую нужно удалить: ')#принимает > 0
-	books.pop(c_book)
-	if year.isdigit() and c_book > 0:
-		year = int(year)
 
-def name_s(books:list):
-	name = input('введите название книги: ')
-	for book in books:
-		if 'название' == name:
-			print(
-				'номер на полке: {}'
-			)
-			print(
-				f'название: {books[c_book]["название"]}'
-			)
-			print(
-				f'автор: {books[c_book]["автор"]}'
-			)
-			print(
-				f'год издания: {books[c_book]["год издания"]}'
-			)
-			print()
+	if c_book.isdigit():
+		c_book = int(c_book)
+	else: 
+		print('введите число!')
+		return hub(books)
 
-show_one(books)
+	idx = c_book - 1
+
+	if idx < 0 or idx >= len(books):
+		print("неправильное число")
+		return hub(books)
+	
+	print(f'книга {books[idx]["название"]} удалена')
+	books.pop(idx)
+	
+	
+def s_b_num(books:list) -> None:
+	if not books:
+		print('библиотека пуста')
+		return
+	num = input('введите порядковый номер книги: ')
+	if not num:
+		print('введите целое число')
+		return hub(books)
+	if num.isdigit():
+		num = int(num)
+	else: 
+		print('введите число!')
+		return hub(books)
+	if num <= 0 or num >= len(books):
+		print("неправильное число")
+		return hub(books)
+	
+
+
+show_all(books)
+s_b_num(books)
+show_all(books)
