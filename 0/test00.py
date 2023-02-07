@@ -28,7 +28,7 @@ def hub() -> None:
 		'Найти книгу по автору',
 		'Найти книгу по году',
 		'Найти книгу по порядковому номеру',
-		'',
+		'Выход',
 	]
 	for b in enumerate(a, 1):
 		print(f'{b[0]})', b[1])
@@ -66,7 +66,7 @@ def hub() -> None:
 		os.system('cls')
 		return s_b_num(books)
 	if u_c == 9:
-		pass
+		return
 
 def show_all(books: list) -> None:
 	if not books:
@@ -247,7 +247,7 @@ def s_b_key(u_key: str) -> None:
 	if not found_books:
 		print('книг не найдено')
 		return
-	
+
 	print(
 		f'номер на полке: {books.index(book) + 1}'
 	)
