@@ -67,6 +67,9 @@ def hub() -> None:
 		return s_b_num(books)
 	if u_c == 9:
 		return
+	else:
+		print('')
+		return hub
 
 def show_all(books: list) -> None:
 	if not books:
