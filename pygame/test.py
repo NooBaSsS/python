@@ -14,50 +14,64 @@ FPS = 60
 score_left = pygame.font.Font(None, 60)
 score_right = pygame.font.Font(None, 60)
 
-screen_width = 800
-screen_height = 600
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen_info = pygame.display.Info()
+screen_width = screen_info.current_w
+screen_height = screen_info.current_h
+screen = pygame.display.set_mode(
+    (screen_width, screen_height),
+    pygame.FULLSCREEN
+)
 pygame.display.set_caption('a')
+
+
+def players_to_center():
+    player_1.y = screen_height // 2 - player_1_height // 2
+    player_2.y = screen_height // 2 - player_2_height // 2
+    player_1.x = screen_width * 0.1
+    player_2.x = screen_width * 0.9 - player_2_width
+
 
 player_1_width = 20
 player_1_height = 70
-player_1_x = 50
-player_1_y = screen_height // 2 - player_1_height // 2
 score_p_1 = 0
 player_1_speed = 10
 player_1 = pygame.Rect(
-    (player_1_x, player_1_y, player_1_width, player_1_height)
+    (0, 0, player_1_width, player_1_height)
 )
 
 player_2_width = 20
 player_2_height = 70
-player_2_x = screen_width - player_1_x - player_2_width
-player_2_y = screen_height // 2 - player_1_height // 2
 score_p_2 = 0
 player_2_speed = 10
 player_2 = pygame.Rect(
-    (player_2_x, player_2_y, player_2_width, player_2_height)
+    (0, 0, player_2_width, player_2_height)
 )
+
+players_to_center()
+
+
+def ball_to_center():
+    ball.x = screen_width // 2 - ball_width
+    ball.y = screen_height // 2 - ball_height
+
+
+def rotate_ball() -> tuple:
+    if randint(0, 1) == 0:
+        direction = randint(225, 315)
+    else:
+        direction = randint(45, 135)
+    velocity = degrees_to_velocity(direction, 10)
+    return velocity
+
 
 ball_color = (WHITE)
 ball_width = 10
 ball_height = 10
-ball_x = screen_width // 2 - ball_width // 2
-ball_y = screen_height // 2 - ball_height // 2
-velocity = degrees_to_velocity(45, 10)
+ball = pygame.Rect((0, 0, ball_width, ball_height))
+ball_to_center()
+velocity = rotate_ball()
 ball_speed_x = velocity[0]
 ball_speed_y = velocity[1]
-ball = pygame.Rect((ball_x, ball_y, ball_width, ball_height))
-
-
-def ball_to_center():
-    ball.x = ball_x
-    ball.y = ball_y
-    if randint(0, 1) == 0:
-        velocity = degrees_to_velocity(randint(45, 135), 10)
-    else:
-        velocity = degrees_to_velocity(randint(215, 305), 10)
-
 
 while True:
     for event in pygame.event.get():
@@ -77,6 +91,7 @@ while True:
         if player_1.y > screen_height - player_1_height:
             player_1.y = screen_height - player_1_height
         player_1.y += player_1_speed
+    '''
     if keys[pygame.K_UP]:
         if player_2.y < 0:
             player_2.y = 0
@@ -85,25 +100,40 @@ while True:
         if player_2.y > screen_height - player_2_height:
             player_2.y = screen_height - player_2_height
         player_2.y += player_2_speed
+    '''
+
+    if ball.centery < player_2.centery:
+        player_2.y -= player_2_speed
+    if ball.centery > player_2.centery:
+        player_2.y += player_2_speed
 
     ball.x += ball_speed_x
     ball.y += ball_speed_y
+
     if ball.x < 0:
         score_p_2 += 1
-        print(score_p_1)
-        print(score_p_2)
         ball_to_center()
+        players_to_center()
+        pygame.time.delay(1500)
+        velocity = rotate_ball()
+        ball_speed_x = velocity[0]
+        ball_speed_y = velocity[1]
     if ball.x > screen_width - ball_width:
         score_p_1 += 1
-        print(score_p_1)
-        print(score_p_2)
         ball_to_center()
+        players_to_center()
+        pygame.time.delay(1500)
+        velocity = rotate_ball()
+        ball_speed_x = velocity[0]
+        ball_speed_y = velocity[1]
     if ball.y < 0:
         ball_speed_y *= -1
     if ball.y > screen_height - ball_height:
         ball_speed_y *= -1
     if ball.colliderect(player_1) or ball.colliderect(player_2):
         ball_speed_x *= -1
+        ball.x += ball_speed_x
+        ball.y += ball_speed_y
 
     screen.fill(BLACK)
     pygame.draw.rect(screen, WHITE, player_1)
